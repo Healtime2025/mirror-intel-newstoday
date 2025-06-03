@@ -1,42 +1,24 @@
-// /api/gpt-summary.js
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
   try {
-    const { text } = req.body;
+    const { articles } = req.body;
 
-    const openaiRes = await fetch('https://api.openai.com/v1/chat/completions', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${process.env.OPENAI_API_KEY}`
-      },
-      body: JSON.stringify({
-        model: 'gpt-3.5-turbo',
-        messages: [
-          {
-            role: 'system',
-            content: 'Summarize this news list into a 3-sentence smart digest in plain English.'
-          },
-          {
-            role: 'user',
-            content: text
-          }
-        ]
-      })
-    });
-
-    const json = await openaiRes.json();
-
-    if (!json.choices || !json.choices[0]?.message?.content) {
-      throw new Error("Invalid GPT response");
+    if (!articles || !Array.isArray(articles) || articles.length === 0) {
+      return res.status(400).json({ error: 'Invalid articles array' });
     }
 
-    res.status(200).json({ summary: json.choices[0].message.content });
-  } catch (err) {
-    console.error('GPT Summary Error:', err);
-    res.status(500).json({ error: 'Failed to generate GPT summary' });
+    // Simulated GPT-style summarization (replace this with real API later)
+    const summary = articles
+      .slice(0, 3)
+      .map((a, i) => `${i + 1}. ${a.title} – ${a.description || 'No summary'}`)
+      .join('\n');
+
+    res.status(200).json({ summary });
+  } catch (error) {
+    console.error('❌ GPT Summary Error:', error.message);
+    res.status(500).json({ error: 'GPT summarization failed' });
   }
 }
