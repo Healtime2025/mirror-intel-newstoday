@@ -39,15 +39,10 @@
       color: #1e2a78;
       font-weight: bold;
     }
-    #mirror-summary,
-    #gpt-digest {
+    #mirror-summary {
       margin-top: 20px;
       font-style: italic;
       white-space: pre-line;
-      background: #fff;
-      padding: 15px;
-      border-radius: 8px;
-      box-shadow: 0 1px 4px rgba(0,0,0,0.08);
     }
   </style>
 </head>
@@ -60,10 +55,7 @@
   <button onclick="summarizeNews()">🧠 Generate Mirror Summary</button>
   <button onclick="speakSummary()">🔊 Speak Briefing</button>
   <button onclick="saveToVisionFlow()">📥 Save to VisionFlow</button>
-  <button onclick="generateDigest()">🧠 AI Mirror Digest</button>
-
   <div id="mirror-summary"></div>
-  <div id="gpt-digest"></div>
 
   <script>
     async function fetchNews() {
@@ -133,41 +125,6 @@
       }
       console.log("🗂 Summary saved to VisionFlow:", summary);
       alert("🧠 Summary saved to VisionFlow (simulated). Future: Connect to backend vault.");
-    }
-
-    async function generateDigest() {
-      const digestBox = document.getElementById("gpt-digest");
-      const articles = Array.from(document.querySelectorAll(".headline")).map(headline => {
-        return {
-          title: headline.querySelector("a")?.innerText || "",
-          description: headline.querySelector("div:last-child")?.innerText || ""
-        };
-      });
-
-      if (articles.length === 0) {
-        digestBox.textContent = "⚠️ No articles available for digest. Please fetch news first.";
-        return;
-      }
-
-      digestBox.textContent = "🧠 Summarizing via GPT...";
-
-      try {
-        const response = await fetch("/api/gpt-digest", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ articles })
-        });
-
-        const data = await response.json();
-        if (data.digest) {
-          digestBox.innerText = `🪞 Mirror Digest:\n\n${data.digest}`;
-        } else {
-          digestBox.textContent = "⚠️ Failed to generate digest.";
-        }
-      } catch (err) {
-        console.error("GPT Digest Error:", err);
-        digestBox.textContent = "🛑 Error generating digest.";
-      }
     }
   </script>
 </body>
