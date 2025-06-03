@@ -39,7 +39,7 @@
       color: #1e2a78;
       font-weight: bold;
     }
-    #mirror-summary {
+    #mirror-summary, #gpt-digest {
       margin-top: 20px;
       font-style: italic;
       white-space: pre-line;
@@ -56,17 +56,16 @@
   <button onclick="generateAIDigest()">🤖 AI Mirror Digest</button>
   <button onclick="speakSummary()">🔊 Speak Briefing</button>
   <button onclick="saveToVisionFlow()">📥 Save to VisionFlow</button>
+
   <div id="mirror-summary"></div>
+  <div id="gpt-digest"></div>
 
   <script>
     async function fetchNews() {
       const container = document.getElementById("news-container");
-      const url = `/api/fetch-news`;
-
       container.innerHTML = "<p>🧠 Scanning BBC World News...</p>";
-
       try {
-        const res = await fetch(url);
+        const res = await fetch('/api/fetch-news');
         const data = await res.json();
 
         if (!data.articles || data.articles.length === 0) {
@@ -112,28 +111,21 @@
     }
 
     async function generateAIDigest() {
-      const articles = document.querySelectorAll(".headline");
-      const summaryBox = document.getElementById("mirror-summary");
+      const summaryBox = document.getElementById("gpt-digest");
+      summaryBox.textContent = "🤖 Thinking... generating digest...";
 
-      if (articles.length === 0) {
-        summaryBox.textContent = "⚠️ Please fetch headlines first.";
-        return;
-      }
-
-      let content = "";
-      articles.forEach((a, i) => {
-        const title = a.querySelector("a").innerText;
-        const desc = a.querySelector("div:last-child").innerText;
-        content += `${i + 1}. ${title} - ${desc}\n`;
+      const articles = [];
+      document.querySelectorAll('.headline').forEach((el) => {
+        const title = el.querySelector('a')?.innerText || '';
+        const description = el.querySelector('div:last-child')?.innerText || '';
+        articles.push({ title, description });
       });
-
-      summaryBox.textContent = "🤖 Thinking... generating digest via GPT...";
 
       try {
         const res = await fetch('/api/gpt-summary', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ text: content })
+          body: JSON.stringify({ articles })
         });
 
         const result = await res.json();
@@ -163,3 +155,4 @@
   </script>
 </body>
 </html>
+
