@@ -136,14 +136,19 @@
       });
 
       try {
-        const res = await fetch('/api/gpt-summary', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ articles })
-        });
+       const res = await fetch('/api/gpt-summary', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({ articles }),
+});
 
-        const result = await res.json();
-        summaryBox.textContent = `🧠 GPT Digest:\n\n${result.summary}`;
+if (!res.ok) {
+  throw new Error('Server returned error');
+}
+
+const result = await res.json();
+summaryBox.textContent = `🧠 GPT Digest:\n\n${result.summary}`;
+
       } catch (error) {
         console.error("GPT Summary Error:", error);
         summaryBox.textContent = "⚠️ Failed to generate GPT digest.";
