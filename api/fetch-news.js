@@ -6,7 +6,7 @@ const sources = {
   bbc: 'https://feeds.bbci.co.uk/news/world/rss.xml',
   cnn: 'http://rss.cnn.com/rss/edition_world.rss',
   aljazeera: 'https://www.aljazeera.com/xml/rss/all.xml',
-  news24: 'https://feeds.news24.com/articles/news24/TopStories/rss',
+  news24: 'https://feeds.capi24.com/v1/Search/articles/news24/TopStories/rss',
   iol: 'https://www.iol.co.za/cmlink/1.640',
   timeslive: 'https://www.timeslive.co.za/rss/?section=news',
   maverick: 'https://www.dailymaverick.co.za/feed/',
