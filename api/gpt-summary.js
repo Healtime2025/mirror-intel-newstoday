@@ -1,4 +1,8 @@
 // /api/gpt-summary.js
+export const config = {
+  runtime: "nodejs", // ✅ Tell Vercel to use Node.js, not Edge runtime
+};
+
 import { Configuration, OpenAIApi } from "openai";
 
 const config = new Configuration({
