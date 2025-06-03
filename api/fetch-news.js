@@ -1,4 +1,3 @@
-// /api/fetch-news.js
 const Parser = require('rss-parser');
 const parser = new Parser();
 
@@ -6,7 +5,7 @@ const parser = new Parser();
 const sources = {
   bbc: 'https://feeds.bbci.co.uk/news/world/rss.xml',
   cnn: 'http://rss.cnn.com/rss/edition_world.rss',
-  aljazeera: 'https://www.aljazeera.com/xml/rss/all.xml'
+  aljazeera: 'https://www.aljazeera.com/xml/rss/all.xml',
   news24: 'https://feeds.news24.com/articles/news24/TopStories/rss',
   iol: 'https://www.iol.co.za/cmlink/1.640',
   timeslive: 'https://www.timeslive.co.za/rss/?section=news',
