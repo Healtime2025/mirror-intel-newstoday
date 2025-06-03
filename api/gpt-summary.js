@@ -1,8 +1,3 @@
-// Force Node.js runtime
-module.exports.config = {
-  runtime: "nodejs",
-};
-
 const { Configuration, OpenAIApi } = require("openai");
 
 const config = new Configuration({
@@ -11,7 +6,7 @@ const config = new Configuration({
 
 const openai = new OpenAIApi(config);
 
-module.exports.default = async function handler(req, res) {
+module.exports = async function handler(req, res) {
   if (req.method !== "POST") {
     return res.status(405).json({ error: "Method not allowed" });
   }
@@ -36,9 +31,10 @@ module.exports.default = async function handler(req, res) {
     });
 
     const summary = completion.data.choices[0].message.content;
-    res.status(200).json({ summary });
+
+    return res.status(200).json({ summary });
   } catch (error) {
-    console.error("❌ GPT API Error:", error.message);
-    res.status(500).json({ error: "GPT summarization failed" });
+    console.error("❌ GPT API Error:", error);
+    return res.status(500).json({ error: "GPT summarization failed." });
   }
 };
