@@ -8,14 +8,79 @@
     body {
       font-family: 'Segoe UI', sans-serif;
       background: #f4f4f4;
-      padding: 30px;
+      margin: 0;
       color: #333;
+    }
+
+    nav {
+      background: #1e2a78;
+      color: white;
+      padding: 10px 20px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .logo {
+      font-weight: bold;
+      font-size: 20px;
+      margin-right: 40px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .nav-links a,
+    .dropdown-toggle {
+      color: white;
+      text-decoration: none;
+      padding: 8px 12px;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .dropdown {
+      position: relative;
+    }
+
+    .dropdown-menu {
+      display: none;
+      position: absolute;
+      background: #2e3a8e;
+      top: 38px;
+      left: 0;
+      z-index: 10;
+      border-radius: 4px;
+      min-width: 180px;
+    }
+
+    .dropdown:hover .dropdown-menu {
+      display: block;
+    }
+
+    .dropdown-menu a {
+      display: block;
+      padding: 10px;
+      color: white;
+    }
+
+    .dropdown-menu a:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    main {
       max-width: 800px;
       margin: auto;
+      padding: 30px;
     }
+
     h1 {
       color: #1e2a78;
     }
+
     button {
       padding: 10px 20px;
       font-size: 16px;
@@ -27,6 +92,7 @@
       margin-bottom: 20px;
       margin-right: 10px;
     }
+
     .headline {
       background: white;
       padding: 15px;
@@ -34,11 +100,13 @@
       border-radius: 8px;
       box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
     }
+
     .headline a {
       text-decoration: none;
       color: #1e2a78;
       font-weight: bold;
     }
+
     #mirror-summary, #gpt-digest {
       margin-top: 20px;
       font-style: italic;
@@ -47,18 +115,48 @@
   </style>
 </head>
 <body>
-  <h1>🧠 Mirror Intel – Daily News Briefing</h1>
 
-  <button onclick="fetchNews()">Fetch Today’s Headlines</button>
-  <div id="news-container"></div>
+  <!-- Top Navbar -->
+  <nav>
+    <div class="logo">🧠 Mirror Intel</div>
+    <div class="nav-links">
+      <a href="#">Home</a>
+      <a href="#">News</a>
+      <a href="#">Sport</a>
+      <div class="dropdown">
+        <span class="dropdown-toggle">Business ▾</span>
+        <div class="dropdown-menu">
+          <a href="#">Executive Lounge</a>
+          <a href="#">Technology of Business</a>
+          <a href="#">Future of Business</a>
+        </div>
+      </div>
+      <a href="#">Innovation</a>
+      <a href="#">Culture</a>
+      <a href="#">Arts</a>
+      <a href="#">Travel</a>
+      <a href="#">Earth</a>
+      <a href="#">Audio</a>
+      <a href="#">Video</a>
+      <a href="#">Live</a>
+    </div>
+  </nav>
 
-  <button onclick="summarizeNews()">🧠 Generate Mirror Summary</button>
-  <button onclick="generateAIDigest()">🤖 AI Mirror Digest</button>
-  <button onclick="speakSummary()">🔊 Speak Briefing</button>
-  <button onclick="saveToVisionFlow()">📥 Save to VisionFlow</button>
+  <!-- Main Content -->
+  <main>
+    <h1>🧠 Mirror Intel – Daily News Briefing</h1>
 
-  <div id="mirror-summary"></div>
-  <div id="gpt-digest"></div>
+    <button onclick="fetchNews()">Fetch Today’s Headlines</button>
+    <div id="news-container"></div>
+
+    <button onclick="summarizeNews()">🧠 Generate Mirror Summary</button>
+    <button onclick="generateAIDigest()">🤖 AI Mirror Digest</button>
+    <button onclick="speakSummary()">🔊 Speak Briefing</button>
+    <button onclick="saveToVisionFlow()">📥 Save to VisionFlow</button>
+
+    <div id="mirror-summary"></div>
+    <div id="gpt-digest"></div>
+  </main>
 
   <script>
     async function fetchNews() {
