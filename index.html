@@ -78,15 +78,13 @@
   <div id="gpt-digest"></div>
 
   <script>
-   async function fetchNews() {
+ async function fetchNews() {
   const container = document.getElementById("news-container");
-  const sourceSelect = document.getElementById("source-select");
-  const selectedSource = sourceSelect.value;
-
   container.innerHTML = "<p>🧠 Scanning selected news feed...</p>";
 
   try {
-    const res = await fetch(`/api/fetch-news?source=${selectedSource}`);
+    const selected = document.getElementById("source-select").value;
+    const res = await fetch(`/api/fetch-news?source=${selected}`);
     const data = await res.json();
 
     if (!data.articles || data.articles.length === 0) {
@@ -110,7 +108,6 @@
     container.innerHTML = "<p>⚠️ Unable to fetch news. Please check the connection or server logs.</p>";
   }
 }
-
 
     function summarizeNews() {
       const articles = document.querySelectorAll(".headline");
