@@ -53,6 +53,7 @@
   <div id="news-container"></div>
 
   <button onclick="summarizeNews()">🧠 Generate Mirror Summary</button>
+  <button onclick="generateAIDigest()">🤖 AI Mirror Digest</button>
   <button onclick="speakSummary()">🔊 Speak Briefing</button>
   <button onclick="saveToVisionFlow()">📥 Save to VisionFlow</button>
   <div id="mirror-summary"></div>
@@ -108,6 +109,39 @@
 
       const basicSummary = `Mirror Summary:\n\n${content.split("\n").slice(0, 3).join("\n")}`;
       summaryBox.textContent = basicSummary;
+    }
+
+    async function generateAIDigest() {
+      const articles = document.querySelectorAll(".headline");
+      const summaryBox = document.getElementById("mirror-summary");
+
+      if (articles.length === 0) {
+        summaryBox.textContent = "⚠️ Please fetch headlines first.";
+        return;
+      }
+
+      let content = "";
+      articles.forEach((a, i) => {
+        const title = a.querySelector("a").innerText;
+        const desc = a.querySelector("div:last-child").innerText;
+        content += `${i + 1}. ${title} - ${desc}\n`;
+      });
+
+      summaryBox.textContent = "🤖 Thinking... generating digest via GPT...";
+
+      try {
+        const res = await fetch('/api/gpt-summary', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ text: content })
+        });
+
+        const result = await res.json();
+        summaryBox.textContent = `🧠 GPT Digest:\n\n${result.summary}`;
+      } catch (error) {
+        console.error("GPT Summary Error:", error);
+        summaryBox.textContent = "⚠️ Failed to generate GPT digest.";
+      }
     }
 
     function speakSummary() {
