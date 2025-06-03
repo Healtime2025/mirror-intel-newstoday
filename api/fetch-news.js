@@ -2,8 +2,17 @@
 const Parser = require('rss-parser');
 const parser = new Parser();
 
+// Supported news sources
+const sources = {
+  bbc: 'https://feeds.bbci.co.uk/news/world/rss.xml',
+  cnn: 'http://rss.cnn.com/rss/edition_world.rss',
+  reuters: 'http://feeds.reuters.com/Reuters/worldNews',
+  aljazeera: 'https://www.aljazeera.com/xml/rss/all.xml'
+};
+
 module.exports = async (req, res) => {
-  const feedUrl = 'https://feeds.bbci.co.uk/news/world/rss.xml';
+  const { source } = req.query;
+  const feedUrl = sources[source] || sources.bbc;
 
   try {
     const parsed = await parser.parseURL(feedUrl);
