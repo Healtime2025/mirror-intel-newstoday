@@ -31,10 +31,10 @@ module.exports = async function handler(req, res) {
     });
 
     const summary = completion.data.choices[0].message.content;
-
     return res.status(200).json({ summary });
+
   } catch (error) {
     console.error("❌ GPT API Error:", error);
-    return res.status(500).json({ error: "GPT summarization failed." });
+    return res.status(500).json({ error: error.message || "GPT summarization failed." });
   }
 };
